@@ -1,10 +1,12 @@
 InstallCMD="sudo apt install -y"
 UpdateCMD="sudo apt update"
 DownloadStdOut="wget -O -"
+AddRepo="sudo add-apt-repository -y"
 
 sudo apt autoremove -y
 
 #custom kernels 1
+#xanmod
 echo 'deb http://deb.xanmod.org releases main' | sudo tee /etc/apt/sources.list.d/xanmod-kernel.list
 $DownloadStdOut https://dl.xanmod.org/gpg.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/xanmod-kernel.gpg add -
 $UpdateCMD
@@ -50,7 +52,7 @@ rm ./$goPackage
 pythonVer="10"
 
 pythonPackage="python3.$pythonVer"
-sudo add-apt-repository -y ppa:deadsnakes/ppa && $UpdateCMD
+$AddRepo ppa:deadsnakes/ppa && $UpdateCMD
 $InstallCMD $pythonPackage $pythonPackage-dev $pythonPackage-gdbm $pythonPackage-venv
 
 
@@ -63,8 +65,16 @@ git clone https://github.com/yyearth/$prochotRepo.git
 
 
 #custom kernels 2
+#mainline
+$AddRepo ppa:cappelikan/ppa && $UpdateCMD
+$InstallCMD mainline
+
+#xanmod
 $InstallCMD linux-xanmod linux-xanmod-edge
 
+#liquorix
+#$AddRepo ppa:damentz/liquorix && $UpdateCMD
+#$InstallCMD linux-image-liquorix-amd64 linux-headers-liquorix-amd64
 
 exit
 #mouse
